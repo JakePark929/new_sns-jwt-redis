@@ -49,6 +49,7 @@ task npmBuild(type: NpmTask) {
 task copyFrontEnd(type: Copy) {
     from "$projectDir/front-end/static"
     into 'build/resources/main/static/.'
+    into "$projectDir/src/main/resources/static"
 }
 
 task cleanFrontEnd(type: Delete) {
