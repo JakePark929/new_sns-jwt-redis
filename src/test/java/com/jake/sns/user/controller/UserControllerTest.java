@@ -1,9 +1,10 @@
 package com.jake.sns.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jake.sns.exception.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
+import com.jake.sns.user.dto.User;
 import com.jake.sns.user.dto.request.UserSignUpRequest;
-import com.jake.sns.user.entity.User;
 import com.jake.sns.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,8 @@ public class UserControllerTest {
 
         when(userService.signUp(username, password)).thenReturn(mock(User.class));
 
-        mockMvc.perform(post("/api/v1/users/join")
+        mockMvc.perform(post("/api/v1/users/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
-                // TODO : add request body
                 .content(objectMapper.writeValueAsBytes(new UserSignUpRequest(username, password)))
         ).andDo(print())
                 .andExpect(status().isOk());
@@ -51,11 +51,10 @@ public class UserControllerTest {
         String username = "username";
         String password = "password";
 
-        when(userService.signUp(username, password)).thenThrow(new SnsApplicationException());
+        when(userService.signUp(username, password)).thenThrow(new SnsApplicationException(ErrorCode.DUPLICATED_USER_NAME));
 
         mockMvc.perform(post("/api/v1/users/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
-                        // TODO : add request body
                         .content(objectMapper.writeValueAsBytes(new UserSignUpRequest(username, password)))
                 ).andDo(print())
                 .andExpect(status().isConflict());
@@ -70,7 +69,6 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/api/v1/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        // TODO : add request body
                         .content(objectMapper.writeValueAsBytes(new UserSignUpRequest(username, password)))
                 ).andDo(print())
                 .andExpect(status().isOk());
@@ -81,11 +79,10 @@ public class UserControllerTest {
         String username = "username";
         String password = "password";
 
-        when(userService.login(username, password)).thenThrow(new SnsApplicationException());
+        when(userService.login(username, password)).thenThrow(new SnsApplicationException(ErrorCode.USER_NOT_FOUND));
 
         mockMvc.perform(post("/api/v1/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        // TODO : add request body
                         .content(objectMapper.writeValueAsBytes(new UserSignUpRequest(username, password)))
                 ).andDo(print())
                 .andExpect(status().isNotFound());
@@ -96,11 +93,10 @@ public class UserControllerTest {
         String username = "username";
         String password = "password";
 
-        when(userService.login(username, password)).thenThrow(new SnsApplicationException());
+        when(userService.login(username, password)).thenThrow(new SnsApplicationException(ErrorCode.INVALID_PASSWORD));
 
         mockMvc.perform(post("/api/v1/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        // TODO : add request body
                         .content(objectMapper.writeValueAsBytes(new UserSignUpRequest(username, password)))
                 ).andDo(print())
                 .andExpect(status().isUnauthorized());
