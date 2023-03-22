@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  new-sns-database:
+    container_name: new-sns-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: epikeran/new-sns-database
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d/
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

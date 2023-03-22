@@ -1,0 +1,48 @@
+spring:
+  profiles:
+    active: local # default
+    group:
+      local:
+        - common
+      prod:
+        - common
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+jwt:
+  secret-key: jake.sns-application-2023.secret_key
+  # 30 days(60 * 60 * 24 * 30 * 1000)
+  token.expired-time-ms: 2592000000
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    hikari:
+      maximum-pool-size: 4
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/sns
+    username: ${SPRING_DATABASE_USERNAME}
+    password: ${SPRING_DATABASE_PASSWORD}
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
