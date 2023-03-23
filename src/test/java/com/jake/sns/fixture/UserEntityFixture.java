@@ -1,4 +1,4 @@
-package com.jake.sns.user.fixture;
+package com.jake.sns.fixture;
 
 import com.jake.sns.user.entity.UserEntity;
 

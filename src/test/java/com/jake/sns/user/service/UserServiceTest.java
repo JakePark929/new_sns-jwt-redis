@@ -3,7 +3,7 @@ package com.jake.sns.user.service;
 import com.jake.sns.exception.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import com.jake.sns.user.entity.UserEntity;
-import com.jake.sns.user.fixture.UserEntityFixture;
+import com.jake.sns.fixture.UserEntityFixture;
 import com.jake.sns.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
