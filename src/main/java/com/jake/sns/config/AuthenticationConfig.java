@@ -1,6 +1,7 @@
-package com.jake.sns.config.auth;
+package com.jake.sns.config;
 
 import com.jake.sns.config.filter.JwtTokenFilter;
+import com.jake.sns.exception.CustomAuthenticationEntryPoint;
 import com.jake.sns.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,10 +31,10 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(new JwtTokenFilter(key, userService), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
         ;
 
-            // TODO: exception handling
-            // .exceptionHandling()
-            // .authenticationEntryPoint()
+
     }
 }

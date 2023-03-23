@@ -19,6 +19,6 @@ public class PostController {
     @PostMapping
     public CommonResponse<Void> create(@RequestBody PostCreateRequest request, Authentication authentication) {
         postService.create(request.getTitle(), request.getBody(), authentication.getName());
-        return CommonResponse.success(null);
+        return CommonResponse.success();
     }
 }
