@@ -51,4 +51,9 @@ public class UserService {
 
         return token;
     }
+
+    public User loadUserByUsername(String username) {
+        return userRepository.findByUsername(username).map(User::fromEntity).orElseThrow(() ->
+                new SnsApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", username)));
+    }
 }
