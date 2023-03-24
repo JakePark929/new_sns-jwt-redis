@@ -61,7 +61,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 function Basic() {
-  const [userName, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [open, setOpen] = React.useState(false);
   const [dialogTitle, setDialogTitle] = React.useState('');
@@ -83,14 +83,14 @@ function Basic() {
   };
 
   const handleSignIn = (event) => {
-    console.log(userName);
+    console.log(username);
     console.log(password);
 
     axios({
       url: '/api/v1/users/login',
       method: 'POST',
       data: {
-        name: userName,
+        username: username,
         password: password,
       },
     })
@@ -138,7 +138,7 @@ function Basic() {
                       <MDInput
                         type="userName"
                         label="User Name"
-                        onChange={(v) => setUserName(v.target.value)}
+                        onChange={(v) => setUsername(v.target.value)}
                         fullWidth
                       />
                     </MDBox>

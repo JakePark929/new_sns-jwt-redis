@@ -2,11 +2,14 @@ package com.jake.sns.post.service;
 
 import com.jake.sns.exception.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
+import com.jake.sns.post.dto.Post;
 import com.jake.sns.post.entity.PostEntity;
 import com.jake.sns.post.repository.PostRepository;
 import com.jake.sns.user.entity.UserEntity;
 import com.jake.sns.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +18,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+
+    public Page<Post> list(Pageable pageable) {
+        return postRepository.findAll(pageable).map(Post::fromEntity);
+    }
+
+    public Page<Post> my(String username, Pageable pageable) {
+        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() ->
+                new SnsApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", username)));
+
+        return postRepository.findAllByUser(userEntity, pageable).map(Post::fromEntity);
+    }
 
     @Transactional
     public void create(String title, String body, String username) {
@@ -29,12 +43,39 @@ public class PostService {
     }
 
     @Transactional
-    public void modify(String title, String body, String username, Long postId) {
+    public Post modify(String title, String body, String username, Long postId) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() ->
                 new SnsApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", username)));
 
         // post exist
+        PostEntity postEntity = postRepository.findById(postId).orElseThrow(() ->
+                new SnsApplicationException(ErrorCode.POST_NOT_FOUND, String.format("%s not fonded", postId)));
 
         // post permission
+        if (postEntity.getUser() != userEntity) {
+            throw new SnsApplicationException(ErrorCode.INVALID_PERMISSION, String.format("%s has no permission with %s", username, postId));
+        }
+
+        postEntity.setTitle(title);
+        postEntity.setBody(body);
+
+        return Post.fromEntity(postRepository.saveAndFlush(postEntity));
+    }
+
+    @Transactional
+    public void delete(String username, Long postId) {
+        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() ->
+                new SnsApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", username)));
+
+        // post exist
+        PostEntity postEntity = postRepository.findById(postId).orElseThrow(() ->
+                new SnsApplicationException(ErrorCode.POST_NOT_FOUND, String.format("%s not fonded", postId)));
+
+        // post permission
+        if (postEntity.getUser() != userEntity) {
+            throw new SnsApplicationException(ErrorCode.INVALID_PERMISSION, String.format("%s has no permission with %s", username, postId));
+        }
+
+        postRepository.delete(postEntity);
     }
 }

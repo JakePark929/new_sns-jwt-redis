@@ -4,9 +4,9 @@ import com.jake.sns.post.entity.PostEntity;
 import com.jake.sns.user.entity.UserEntity;
 
 public class PostEntityFixture {
-    public static PostEntity get(String username, Long postId) {
+    public static PostEntity get(String username, Long postId, Long userId) {
         UserEntity user = new UserEntity();
-        user.setId(1L);
+        user.setId(userId);
         user.setUsername(username);
 
         PostEntity result = new PostEntity();
