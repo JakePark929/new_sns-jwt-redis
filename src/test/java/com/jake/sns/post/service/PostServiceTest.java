@@ -1,13 +1,14 @@
 package com.jake.sns.post.service;
 
+import com.jake.sns.domain.post.service.PostService;
 import com.jake.sns.exception.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import com.jake.sns.fixture.PostEntityFixture;
 import com.jake.sns.fixture.UserEntityFixture;
-import com.jake.sns.post.entity.PostEntity;
-import com.jake.sns.post.repository.PostRepository;
-import com.jake.sns.user.entity.UserEntity;
-import com.jake.sns.user.repository.UserRepository;
+import com.jake.sns.domain.post.entity.PostEntity;
+import com.jake.sns.domain.post.repository.PostRepository;
+import com.jake.sns.domain.user.entity.UserEntity;
+import com.jake.sns.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

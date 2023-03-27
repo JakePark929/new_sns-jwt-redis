@@ -1,6 +1,6 @@
 package com.jake.sns.fixture;
 
-import com.jake.sns.user.entity.UserEntity;
+import com.jake.sns.domain.user.entity.UserEntity;
 
 public class UserEntityFixture {
     public static UserEntity get(String username, String password, Long userId) {

@@ -1,13 +1,12 @@
 package com.jake.sns.config.filter;
 
 import com.jake.sns.common.util.JwtTokenUtils;
-import com.jake.sns.user.dto.User;
-import com.jake.sns.user.service.UserService;
+import com.jake.sns.domain.user.dto.User;
+import com.jake.sns.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +28,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         // get header
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if(header == null || !header.startsWith("Bearer ")) {
-            log.error("Error occurs while getting header: header is null or invalid");
+            log.error("Error occurs while getting header: header is null or invalid {}", request.getRequestURL());
             filterChain.doFilter(request, response);
             return;
         }
