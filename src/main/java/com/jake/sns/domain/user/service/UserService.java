@@ -35,7 +35,7 @@ public class UserService {
 
         // 비밀번호 체크
 //        if (!userEntity.getPassword().equals(password)) {
-        if(!encoder.matches(password, userEntity.getPassword())) {
+        if (!encoder.matches(password, userEntity.getPassword())) {
             throw new SnsApplicationException(ErrorCode.INVALID_PASSWORD);
         }
 
@@ -58,11 +58,12 @@ public class UserService {
         return User.fromEntity(userEntity);
     }
 
-    public Page<Alarm> alarmList(String username, Pageable pageable) {
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() ->
-                new SnsApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", username)));
-
-        return alarmRepository.findAllByUser(userEntity, pageable).map(Alarm::fromEntity);
+//    public Page<Alarm> alarmList(String username, Pageable pageable) {
+//        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new SnsApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", username)));
+//        return alarmRepository.findAllByUser(userEntity, pageable).map(Alarm::fromEntity);
+//    }
+    public Page<Alarm> alarmList(Long userId, Pageable pageable) {
+        return alarmRepository.findAllByUserId(userId, pageable).map(Alarm::fromEntity);
     }
 
     public User loadUserByUsername(String username) {

@@ -1,6 +1,7 @@
 package com.jake.sns.domain.user.controller;
 
 import com.jake.sns.common.response.CommonResponse;
+import com.jake.sns.common.util.ClassUtils;
 import com.jake.sns.domain.alarm.dto.response.AlarmResponse;
 import com.jake.sns.domain.user.dto.User;
 import com.jake.sns.domain.user.dto.request.UserLoginRequest;
@@ -8,6 +9,8 @@ import com.jake.sns.domain.user.dto.request.UserSignUpRequest;
 import com.jake.sns.domain.user.dto.response.UserLoginResponse;
 import com.jake.sns.domain.user.dto.response.UserSignupResponse;
 import com.jake.sns.domain.user.service.UserService;
+import com.jake.sns.exception.ErrorCode;
+import com.jake.sns.exception.SnsApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,7 +40,9 @@ public class UserController {
 
     @GetMapping("/alarm")
     public CommonResponse<Page<AlarmResponse>> alarm(Pageable pageable, Authentication authentication) {
-        return CommonResponse.success(userService.alarmList(authentication.getName(), pageable)
-                .map(AlarmResponse::fromAlarm));
+//        return CommonResponse.success(userService.alarmList(authentication.getName(), pageable).map(AlarmResponse::fromAlarm));
+        User user = ClassUtils.getSafeCastInstance(authentication.getPrincipal(), User.class).orElseThrow(() ->
+                new SnsApplicationException(ErrorCode.INTERNAL_SERVER_ERROR, "Casting to User class failed"));
+        return CommonResponse.success(userService.alarmList(user.getId(), pageable).map(AlarmResponse::fromAlarm));
     }
 }

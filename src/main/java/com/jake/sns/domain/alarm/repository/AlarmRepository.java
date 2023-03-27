@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AlarmRepository extends JpaRepository<AlarmEntity, Long> {
-    Page<AlarmEntity> findAllByUser(UserEntity user, Pageable pageable);
+//    Page<AlarmEntity> findAllByUser(UserEntity user, Pageable pageable);
+    Page<AlarmEntity> findAllByUserId(Long userId, Pageable pageable);
 }
