@@ -1,5 +1,9 @@
 package com.jake.sns.domain.post.service;
 
+import com.jake.sns.constant.AlarmType;
+import com.jake.sns.domain.alarm.AlarmArgs;
+import com.jake.sns.domain.alarm.entity.AlarmEntity;
+import com.jake.sns.domain.alarm.repository.AlarmRepository;
 import com.jake.sns.domain.comment.dto.Comment;
 import com.jake.sns.domain.comment.entity.CommentEntity;
 import com.jake.sns.domain.comment.repository.CommentRepository;
@@ -25,6 +29,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
+    private final AlarmRepository alarmRepository;
 
     @Transactional(readOnly = true)
     public Page<Post> list(Pageable pageable) {
@@ -83,22 +88,6 @@ public class PostService {
         postRepository.delete(postEntity);
     }
 
-    @Transactional
-    public void like(Long postId, String username) {
-        // user exist
-        UserEntity userEntity = getUserOrException(username);
-        // post exist
-        PostEntity postEntity = getPostOrException(postId);
-
-        // check liked -> throw
-         likeRepository.findByUserAndPost(userEntity, postEntity).ifPresent(it -> {
-             throw new SnsApplicationException(ErrorCode.ALREADY_LIKED, String.format("username %s already like post %d", username, postId));
-         });
-
-        // like save
-        likeRepository.save(LikeEntity.of(userEntity, postEntity));
-    }
-
     @Transactional(readOnly = true)
     public Integer likeCount(Long postId) {
         // post exist
@@ -109,6 +98,29 @@ public class PostService {
 //        return likeEntities.size();
 
         return likeRepository.countAllByPost(postEntity);
+    }
+
+    @Transactional
+    public void like(Long postId, String username) {
+        // user exist
+        UserEntity userEntity = getUserOrException(username);
+        // post exist
+        PostEntity postEntity = getPostOrException(postId);
+
+        // check liked -> throw
+        likeRepository.findByUserAndPost(userEntity, postEntity).ifPresent(it -> {
+            throw new SnsApplicationException(ErrorCode.ALREADY_LIKED, String.format("username %s already like post %d", username, postId));
+        });
+
+        // like save
+        likeRepository.save(LikeEntity.of(userEntity, postEntity));
+
+        // alarm save
+        alarmRepository.save(AlarmEntity.of(
+                postEntity.getUser(),
+                AlarmType.NEW_LIKE_ON_POST,
+                new AlarmArgs(userEntity.getId(), postEntity.getId()))
+        );
     }
 
     @Transactional(readOnly = true)
@@ -127,6 +139,13 @@ public class PostService {
 
         // comment save
         commentRepository.save(CommentEntity.of(userEntity, postEntity, context));
+
+        // alarm save
+        alarmRepository.save(AlarmEntity.of(
+                postEntity.getUser(),
+                AlarmType.NEW_COMMENT_ON_POST,
+                new AlarmArgs(userEntity.getId(), postEntity.getId()))
+        );
     }
 
     // user exist

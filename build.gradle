@@ -36,6 +36,10 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+
+    // hibernate 에 없는 타입을 가져와서 사용할 수 있게 해주는 library
+    // postgres 의 jsonb type 을 hibernate 가 사용할 수 있게 해줌
+    implementation 'com.vladmihalcea:hibernate-types-52:2.17.3'
 }
 
 tasks.named('test') {

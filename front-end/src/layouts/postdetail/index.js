@@ -141,7 +141,7 @@ function PostDetail() {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
       data: {
-        comment: comment,
+        context: comment,
       },
     })
       .then((res) => {
@@ -194,12 +194,12 @@ function PostDetail() {
                   <Grid container>
                     <Grid item xs={6}>
                       <MDTypography fontWeight="bold" variant="body2">
-                        {comment.comment}
+                        {comment.context}
                       </MDTypography>
                     </Grid>
                     <Grid item xs={6}>
                       <MDTypography variant="body2" textAlign="right">
-                        {comment.userName}
+                        {comment.username}
                       </MDTypography>
                     </Grid>
                   </Grid>
