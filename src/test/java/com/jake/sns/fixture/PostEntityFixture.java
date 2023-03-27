@@ -1,7 +1,7 @@
 package com.jake.sns.fixture;
 
-import com.jake.sns.post.entity.PostEntity;
-import com.jake.sns.user.entity.UserEntity;
+import com.jake.sns.domain.post.entity.PostEntity;
+import com.jake.sns.domain.user.entity.UserEntity;
 
 public class PostEntityFixture {
     public static PostEntity get(String username, Long postId, Long userId) {
