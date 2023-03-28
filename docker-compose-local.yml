@@ -1,14 +1,22 @@
 version: "3.8"
-
 services:
+  new-sns-redis:
+    container_name: new-sns-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: epikeran/new-sns-redis
+    ports:
+      - "6379:6379"
+
   new-sns-database:
     container_name: new-sns-database
     build:
       dockerfile: Dockerfile
       context: ./database
     image: epikeran/new-sns-database
-    volumes:
-      - ./sql/:/docker-entrypoint-initdb.d/
-      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=sns
+      - POSTGRES_PASSWORD=${SPRING_DATABASE_PASSWORD}
     ports:
       - "5432:5432"
