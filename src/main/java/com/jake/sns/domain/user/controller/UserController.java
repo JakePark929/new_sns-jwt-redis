@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,5 +45,12 @@ public class UserController {
         User user = ClassUtils.getSafeCastInstance(authentication.getPrincipal(), User.class).orElseThrow(() ->
                 new SnsApplicationException(ErrorCode.INTERNAL_SERVER_ERROR, "Casting to User class failed"));
         return CommonResponse.success(userService.alarmList(user.getId(), pageable).map(AlarmResponse::fromAlarm));
+    }
+
+    @GetMapping("/alarm/subscribe")
+    public SseEmitter subscribe(Authentication authentication) {
+        User user = ClassUtils.getSafeCastInstance(authentication.getPrincipal(), User.class).orElseThrow(() ->
+                new SnsApplicationException(ErrorCode.INTERNAL_SERVER_ERROR, "Casting to User class failed"));
+        return
     }
 }

@@ -1,4 +1,4 @@
-package com.jake.sns.config;
+package com.jake.sns.domain.comment.dto.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

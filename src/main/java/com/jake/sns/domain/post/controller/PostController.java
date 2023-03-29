@@ -1,7 +1,6 @@
 package com.jake.sns.domain.post.controller;
 
 import com.jake.sns.common.response.CommonResponse;
-import com.jake.sns.domain.comment.dto.Comment;
 import com.jake.sns.domain.comment.dto.response.CommentResponse;
 import com.jake.sns.domain.post.dto.request.PostCommentRequest;
 import com.jake.sns.domain.post.dto.response.PostResponse;

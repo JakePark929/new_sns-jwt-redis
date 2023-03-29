@@ -1,11 +1,12 @@
-package com.jake.sns.config;
+package com.jake.sns.domain.comment.dto.config;
 
-import com.jake.sns.config.filter.JwtTokenFilter;
+import com.jake.sns.domain.comment.dto.config.filter.JwtTokenFilter;
 import com.jake.sns.exception.CustomAuthenticationEntryPoint;
 import com.jake.sns.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,14 +24,14 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().regexMatchers("^(?!/api/).*");
+        web.ignoring().regexMatchers("^(?!/api/).*")
+                .antMatchers(HttpMethod.POST, "/api/*/users/sign-up", "/api/*/users/login");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/*/users/sign-up", "/api/*/users/login").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 .sessionManagement()
