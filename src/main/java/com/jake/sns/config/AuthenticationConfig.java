@@ -1,6 +1,6 @@
-package com.jake.sns.domain.comment.dto.config;
+package com.jake.sns.config;
 
-import com.jake.sns.domain.comment.dto.config.filter.JwtTokenFilter;
+import com.jake.sns.config.filter.JwtTokenFilter;
 import com.jake.sns.exception.CustomAuthenticationEntryPoint;
 import com.jake.sns.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;

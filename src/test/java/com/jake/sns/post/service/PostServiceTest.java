@@ -1,7 +1,7 @@
 package com.jake.sns.post.service;
 
 import com.jake.sns.domain.post.service.PostService;
-import com.jake.sns.exception.ErrorCode;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import com.jake.sns.fixture.PostEntityFixture;
 import com.jake.sns.fixture.UserEntityFixture;

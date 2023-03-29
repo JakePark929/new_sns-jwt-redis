@@ -1,7 +1,7 @@
 package com.jake.sns.user.service;
 
 import com.jake.sns.domain.user.service.UserService;
-import com.jake.sns.exception.ErrorCode;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import com.jake.sns.domain.user.entity.UserEntity;
 import com.jake.sns.fixture.UserEntityFixture;

@@ -1,6 +1,7 @@
 package com.jake.sns.exception;
 
 
+import com.jake.sns.constant.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

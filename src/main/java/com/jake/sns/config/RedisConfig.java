@@ -1,4 +1,4 @@
-package com.jake.sns.domain.comment.dto.config;
+package com.jake.sns.config;
 
 import com.jake.sns.domain.user.dto.User;
 import lombok.RequiredArgsConstructor;
