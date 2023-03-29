@@ -3,13 +3,14 @@ package com.jake.sns.domain.user.controller;
 import com.jake.sns.common.response.CommonResponse;
 import com.jake.sns.common.util.ClassUtils;
 import com.jake.sns.domain.alarm.dto.response.AlarmResponse;
+import com.jake.sns.domain.alarm.service.AlarmService;
 import com.jake.sns.domain.user.dto.User;
 import com.jake.sns.domain.user.dto.request.UserLoginRequest;
 import com.jake.sns.domain.user.dto.request.UserSignUpRequest;
 import com.jake.sns.domain.user.dto.response.UserLoginResponse;
 import com.jake.sns.domain.user.dto.response.UserSignupResponse;
 import com.jake.sns.domain.user.service.UserService;
-import com.jake.sns.exception.ErrorCode;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +26,10 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RestController
 public class UserController {
     private final UserService userService;
+    private final AlarmService alarmService;
 
     @PostMapping("/login")
     public CommonResponse<UserLoginResponse> login(@RequestBody UserLoginRequest request) {
-        log.info("getUsername: {}, getPassword: {}", request.getUsername(), request.getPassword());
         String token = userService.login(request.getUsername(), request.getPassword());
         return CommonResponse.success(new UserLoginResponse(token));
     }
@@ -51,6 +52,6 @@ public class UserController {
     public SseEmitter subscribe(Authentication authentication) {
         User user = ClassUtils.getSafeCastInstance(authentication.getPrincipal(), User.class).orElseThrow(() ->
                 new SnsApplicationException(ErrorCode.INTERNAL_SERVER_ERROR, "Casting to User class failed"));
-        return
+        return alarmService.connectAlarm(user.getId());
     }
 }

@@ -3,13 +3,16 @@ package com.jake.sns.domain.post.service;
 import com.jake.sns.constant.AlarmType;
 import com.jake.sns.domain.alarm.AlarmArgs;
 import com.jake.sns.domain.alarm.entity.AlarmEntity;
+import com.jake.sns.domain.alarm.event.AlarmEvent;
+import com.jake.sns.domain.alarm.producer.AlarmProducer;
 import com.jake.sns.domain.alarm.repository.AlarmRepository;
+import com.jake.sns.domain.alarm.service.AlarmService;
 import com.jake.sns.domain.comment.dto.Comment;
 import com.jake.sns.domain.comment.entity.CommentEntity;
 import com.jake.sns.domain.comment.repository.CommentRepository;
 import com.jake.sns.domain.post.entity.PostEntity;
 import com.jake.sns.domain.post.repository.PostRepository;
-import com.jake.sns.exception.ErrorCode;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import com.jake.sns.domain.like.entity.LikeEntity;
 import com.jake.sns.domain.like.repository.LikeRepository;
@@ -30,6 +33,8 @@ public class PostService {
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
     private final AlarmRepository alarmRepository;
+    private final AlarmService alarmService;
+    private final AlarmProducer alarmProducer;
 
     @Transactional(readOnly = true)
     public Page<Post> list(Pageable pageable) {
@@ -117,12 +122,14 @@ public class PostService {
         // like save
         likeRepository.save(LikeEntity.of(userEntity, postEntity));
 
-        // alarm save
-        alarmRepository.save(AlarmEntity.of(
-                postEntity.getUser(),
-                AlarmType.NEW_LIKE_ON_POST,
-                new AlarmArgs(userEntity.getId(), postEntity.getId()))
-        );
+        // alarm save : deprecated
+//        AlarmEntity alarmEntity = alarmRepository.save(AlarmEntity.of(postEntity.getUser(), AlarmType.NEW_LIKE_ON_POST, new AlarmArgs(userEntity.getId(), postEntity.getId())));
+
+        // sse
+//        alarmService.send(alarmEntity.getId(), postEntity.getUser().getId());
+
+        // sse from kafka
+        alarmProducer.send(new AlarmEvent(postEntity.getUser().getId(), AlarmType.NEW_LIKE_ON_POST, new AlarmArgs(userEntity.getId(), postEntity.getId())));
     }
 
     @Transactional(readOnly = true)
@@ -142,12 +149,14 @@ public class PostService {
         // comment save
         commentRepository.save(CommentEntity.of(userEntity, postEntity, context));
 
-        // alarm save
-        alarmRepository.save(AlarmEntity.of(
-                postEntity.getUser(),
-                AlarmType.NEW_COMMENT_ON_POST,
-                new AlarmArgs(userEntity.getId(), postEntity.getId()))
-        );
+        // alarm save  : deprecated
+//        AlarmEntity alarmEntity = alarmRepository.save(AlarmEntity.of(postEntity.getUser(), AlarmType.NEW_COMMENT_ON_POST, new AlarmArgs(userEntity.getId(), postEntity.getId())));
+
+        // sse : deprecated
+//        alarmService.send(alarmEntity.getId(), postEntity.getUser().getId());
+
+        // sse from kafka
+        alarmProducer.send(new AlarmEvent(postEntity.getUser().getId(), AlarmType.NEW_COMMENT_ON_POST, new AlarmArgs(userEntity.getId(), postEntity.getId())));
     }
 
     // user exist

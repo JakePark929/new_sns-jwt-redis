@@ -43,6 +43,9 @@ dependencies {
 
     // spring redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // spring kafka
+    implementation 'org.springframework.kafka:spring-kafka'
 }
 
 tasks.named('test') {

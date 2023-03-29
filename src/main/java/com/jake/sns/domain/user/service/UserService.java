@@ -6,7 +6,7 @@ import com.jake.sns.domain.alarm.repository.AlarmRepository;
 import com.jake.sns.domain.user.cache.UserCacheRepository;
 import com.jake.sns.domain.user.dto.User;
 import com.jake.sns.domain.user.entity.UserEntity;
-import com.jake.sns.exception.ErrorCode;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import com.jake.sns.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

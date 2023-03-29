@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jake.sns.domain.user.dto.User;
 import com.jake.sns.domain.user.dto.request.UserSignUpRequest;
 import com.jake.sns.domain.user.service.UserService;
-import com.jake.sns.exception.ErrorCode;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.exception.SnsApplicationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

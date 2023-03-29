@@ -1,5 +1,45 @@
 version: "3.8"
+
+networks:
+  app-tier:
+    driver: bridge
+
 services:
+  new-sns-zookeeper:
+    container_name: new-sns-zookeeper
+    build:
+      dockerfile: Dockerfile
+      context: ./zookeeper
+    image: epikeran/new-sns-zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
+    networks:
+      - app-tier
+
+  new-sns-kafka:
+    container_name: new-sns-kafka
+    build:
+      dockerfile: Dockerfile
+      context: ./kafka
+    image: epikeran/new-sns-kafka
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=new-sns-zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CREATE_TOPICS="test_topic:5:1" #topic_name:partition:replica
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - new-sns-zookeeper
+    ports:
+      - "9092:9092"
+    networks:
+      - app-tier
+
   new-sns-redis:
     container_name: new-sns-redis
     build:
@@ -17,6 +57,6 @@ services:
     image: epikeran/new-sns-database
     environment:
       - POSTGRES_DB=sns
-      - POSTGRES_PASSWORD=${SPRING_DATABASE_PASSWORD}
+      - POSTGRES_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     ports:
       - "5432:5432"

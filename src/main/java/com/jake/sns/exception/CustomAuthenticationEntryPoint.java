@@ -1,7 +1,7 @@
 package com.jake.sns.exception;
 
 import com.jake.sns.common.response.CommonResponse;
-import org.springframework.http.ResponseEntity;
+import com.jake.sns.constant.ErrorCode;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
