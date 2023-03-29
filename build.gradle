@@ -40,6 +40,9 @@ dependencies {
     // hibernate 에 없는 타입을 가져와서 사용할 수 있게 해주는 library
     // postgres 의 jsonb type 을 hibernate 가 사용할 수 있게 해줌
     implementation 'com.vladmihalcea:hibernate-types-52:2.17.3'
+
+    // spring redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {

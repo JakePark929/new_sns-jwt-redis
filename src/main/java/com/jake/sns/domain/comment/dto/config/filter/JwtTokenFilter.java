@@ -1,4 +1,4 @@
-package com.jake.sns.config.filter;
+package com.jake.sns.domain.comment.dto.config.filter;
 
 import com.jake.sns.common.util.JwtTokenUtils;
 import com.jake.sns.domain.user.dto.User;

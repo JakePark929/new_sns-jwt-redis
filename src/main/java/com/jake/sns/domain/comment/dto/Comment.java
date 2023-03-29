@@ -1,8 +1,6 @@
 package com.jake.sns.domain.comment.dto;
 
 import com.jake.sns.domain.comment.entity.CommentEntity;
-import com.jake.sns.domain.post.entity.PostEntity;
-import com.jake.sns.domain.user.dto.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

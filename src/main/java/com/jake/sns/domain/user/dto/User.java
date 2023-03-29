@@ -1,8 +1,11 @@
 package com.jake.sns.domain.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jake.sns.constant.UserRole;
 import com.jake.sns.domain.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,10 +16,11 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
@@ -38,26 +42,31 @@ public class User implements UserDetails{
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.getRole().toString()));
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return this.deletedAt == null;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return this.deletedAt == null;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return this.deletedAt == null;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return this.deletedAt == null;
     }
