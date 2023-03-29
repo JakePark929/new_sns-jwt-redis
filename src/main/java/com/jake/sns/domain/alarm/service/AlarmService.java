@@ -1,13 +1,11 @@
 package com.jake.sns.domain.alarm.service;
 
 import com.jake.sns.constant.AlarmType;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.domain.alarm.AlarmArgs;
-import com.jake.sns.domain.alarm.dto.Alarm;
 import com.jake.sns.domain.alarm.entity.AlarmEntity;
 import com.jake.sns.domain.alarm.repository.AlarmRepository;
 import com.jake.sns.domain.alarm.repository.EmitterRepository;
-import com.jake.sns.constant.ErrorCode;
-import com.jake.sns.domain.user.dto.response.UserResponse;
 import com.jake.sns.domain.user.entity.UserEntity;
 import com.jake.sns.domain.user.repository.UserRepository;
 import com.jake.sns.exception.SnsApplicationException;

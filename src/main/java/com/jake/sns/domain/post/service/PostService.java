@@ -1,8 +1,8 @@
 package com.jake.sns.domain.post.service;
 
 import com.jake.sns.constant.AlarmType;
+import com.jake.sns.constant.ErrorCode;
 import com.jake.sns.domain.alarm.AlarmArgs;
-import com.jake.sns.domain.alarm.entity.AlarmEntity;
 import com.jake.sns.domain.alarm.event.AlarmEvent;
 import com.jake.sns.domain.alarm.producer.AlarmProducer;
 import com.jake.sns.domain.alarm.repository.AlarmRepository;
@@ -10,15 +10,14 @@ import com.jake.sns.domain.alarm.service.AlarmService;
 import com.jake.sns.domain.comment.dto.Comment;
 import com.jake.sns.domain.comment.entity.CommentEntity;
 import com.jake.sns.domain.comment.repository.CommentRepository;
-import com.jake.sns.domain.post.entity.PostEntity;
-import com.jake.sns.domain.post.repository.PostRepository;
-import com.jake.sns.constant.ErrorCode;
-import com.jake.sns.exception.SnsApplicationException;
 import com.jake.sns.domain.like.entity.LikeEntity;
 import com.jake.sns.domain.like.repository.LikeRepository;
 import com.jake.sns.domain.post.dto.Post;
+import com.jake.sns.domain.post.entity.PostEntity;
+import com.jake.sns.domain.post.repository.PostRepository;
 import com.jake.sns.domain.user.entity.UserEntity;
 import com.jake.sns.domain.user.repository.UserRepository;
+import com.jake.sns.exception.SnsApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +31,6 @@ public class PostService {
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
-    private final AlarmRepository alarmRepository;
-    private final AlarmService alarmService;
     private final AlarmProducer alarmProducer;
 
     @Transactional(readOnly = true)
