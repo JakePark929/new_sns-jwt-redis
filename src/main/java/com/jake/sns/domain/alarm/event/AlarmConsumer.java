@@ -1,4 +1,4 @@
-package com.jake.sns.domain.alarm.consumer;
+package com.jake.sns.domain.alarm.event;
 
 import com.jake.sns.domain.alarm.event.AlarmEvent;
 import com.jake.sns.domain.alarm.service.AlarmService;
